@@ -6,3 +6,9 @@ module "this" {
 module "config" {
   source = "github.com/jjno91/config-example"
 }
+
+terraform {
+  backend "gcs" {
+    bucket = "jjno91-terraform-state"
+  }
+}

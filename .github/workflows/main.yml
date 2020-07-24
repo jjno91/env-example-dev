@@ -2,6 +2,9 @@ name: Main
 on: [push]
 env:
   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+  GOOGLE_PROJECT: github-jjno91
+  TF_IN_AUTOMATION: true
+  TF_INPUT: true
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -12,8 +15,8 @@ jobs:
       - name: Lint
         run: terraform fmt -recursive -check
       - name: Initialize
-        run: terraform init
+        run: terraform init -backend-config "prefix=${GITHUB_REPOSITORY}"
       - name: Apply
-        run: terraform apply
+        run: terraform apply -auto-approve
       - name: Idempotency Check
         run: terraform plan -detailed-exitcode
